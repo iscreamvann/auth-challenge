@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function MovieForm({ handleSubmit }) {
     const [movie, setMovie] = useState({ title: '', description: '', runtimeMins: 60 });
@@ -6,16 +6,15 @@ export default function MovieForm({ handleSubmit }) {
     const handleSubmitDecorator = (e) => {
         e.preventDefault();
         handleSubmit(movie);
-    }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
         setMovie({
             ...movie,
             [name]: name === 'runtimeMins' ? parseInt(value) : value
         });
-    }
+    };
 
     return (
         <form onSubmit={handleSubmitDecorator}>

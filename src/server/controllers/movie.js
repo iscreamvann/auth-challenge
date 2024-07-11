@@ -1,31 +1,31 @@
 import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const jwtSecret = 'mysecret';
 
-const getAllMovies = async (req, res) => {
-    const movies = await prisma.movie.findMany();
-
-    res.json({ data: movies });
-};
-
 const createMovie = async (req, res) => {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  
+  try {
+    const decoded = jwt.verify(token, jwtSecret);
     const { title, description, runtimeMins } = req.body;
+    
+    const createdMovie = await prisma.movie.create({
+      data: {
+        title,
+        description,
+        runtimeMins
+      }
+    });
 
-    try {
-        const token = null;
-        // todo verify the token
-    } catch (e) {
-        return res.status(401).json({ error: 'Invalid token provided.' })
-    }
-
-    const createdMovie = null;
-
-    res.json({ data: createdMovie });
+    res.status(201).json({ data: createdMovie });
+  } catch (error) {
+    console.error('Error creating movie:', error.message);
+    res.status(401).json({ error: 'Unauthorized' });
+  }
 };
 
 export {
-    getAllMovies,
-    createMovie
+  createMovie
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function UserForm({ handleSubmit }) {
     const [user, setUser] = useState({ username: '', password: '' });
@@ -10,7 +10,6 @@ export default function UserForm({ handleSubmit }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
         setUser({
             ...user,
             [name]: value
